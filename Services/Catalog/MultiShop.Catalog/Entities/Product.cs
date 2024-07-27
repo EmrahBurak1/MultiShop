@@ -13,6 +13,8 @@ namespace MultiShop.Catalog.Entities
         public string ProductImageUrl { get; set; }
         public string ProductDescription { get; set; }
         public string CategoryId { get; set; }
+
+        [BsonIgnore] //Mongodb de ignore ile belirtilen parametreler veritabanına kaydedilmez.
         public Category Category { get; set; }
 
     }
