@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using MultiShop.Catalog.Dtos.CategoryDtos;
 using MultiShop.Catalog.Entities;
+using MultiShop.Catalog.Settings;
 
 namespace MultiShop.Catalog.Services.CategoryServices
 {
@@ -9,29 +10,43 @@ namespace MultiShop.Catalog.Services.CategoryServices
     {
         private readonly IMongoCollection<Category> _categoryCollection; //MongoCollection'dan category sınıfı için bir field türetiyoruz.
         private readonly IMapper _mapper; //Automapper'ı kullanmak için mapper field'ı oluşturuyoruz.
-        public Task CreateCategoryAsync(CreateCategoryDto createCategoryDto)
+
+        public CategoryService(IMapper mapper, IDatabaseSettings _databaseSettings )
         {
-            throw new NotImplementedException();
+            var client = new MongoClient(_databaseSettings.ConnectionString);
+            var database = client.GetDatabase(_databaseSettings.DatabaseName);
+            _categoryCollection = database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);  //Category tablosuna da bu şekilde erişim sağlanır.
+            _mapper = mapper;
         }
 
-        public Task DeleteCategoryAsync(string id)
+        public async Task CreateCategoryAsync(CreateCategoryDto createCategoryDto)
         {
-            throw new NotImplementedException();
+            var value = _mapper.Map<Category>( createCategoryDto ); //Category entitysi ile createCategoryDto dan gelen parametreler eşleştirilmiş olur.
+            await _categoryCollection.InsertOneAsync(value);  //Mongodb'de ekleme işlemi InsertOneAsync ile yapılıyor. Bu şekilde Asekron olarak ekleme işlemi yapılır.
         }
 
-        public Task<List<ResultCategoryDto>> GetAllCategoryAsync()
+        public async Task DeleteCategoryAsync(string id)
         {
-            throw new NotImplementedException();
+            await _categoryCollection.DeleteOneAsync(x => x.CategoryID == id);
         }
 
-        public Task<GetByIdCategoryDto> GetByIdCategoryAsync(string id)
+        public async Task<List<ResultCategoryDto>> GetAllCategoryAsync()
         {
-            throw new NotImplementedException();
+            var values = await _categoryCollection.Find(x => true).ToListAsync(); //Tüm değerleri getirmek için kullanılır.
+            return _mapper.Map<List<ResultCategoryDto>>(values); //Bu şekilde maplenmiş veri geri döndürülür.
         }
 
-        public Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto)
+        public async Task<GetByIdCategoryDto> GetByIdCategoryAsync(string id)
         {
-            throw new NotImplementedException();
+            var values = await _categoryCollection.Find(x => x.CategoryID == id).FirstOrDefaultAsync();
+            return _mapper.Map<GetByIdCategoryDto>(values);
+        }
+
+        public async Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto)
+        {
+            var values = _mapper.Map<Category>(updateCategoryDto);
+            await _categoryCollection.FindOneAndReplaceAsync(x=>x.CategoryID==updateCategoryDto.CategoryID, values); //Mongodb de update işlemi FindOneAndReplace ile yapılır.
+
         }
     }
 }

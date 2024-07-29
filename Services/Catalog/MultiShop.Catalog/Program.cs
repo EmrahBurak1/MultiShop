@@ -1,6 +1,30 @@
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Options;
+using MultiShop.Catalog.Mapping;
+using MultiShop.Catalog.Services.CategoryServices;
+using MultiShop.Catalog.Services.ProductDetailDetailServices;
+using MultiShop.Catalog.Services.ProductDetailServices;
+using MultiShop.Catalog.Services.ProductImageServices;
+using MultiShop.Catalog.Services.ProductServices;
+using MultiShop.Catalog.Settings;
+using System.Reflection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<ICategoryService, CategoryService>(); //Addscoped uygulamada method çaðýrýldýðýnda bunun nesne örneðini oluþturmuþ olur. Registration iþlemi bu þekilde yapýlmýþ olur.
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
+builder.Services.AddScoped<IProductImageService, ProductImageService>();
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly()); //Automapper konfigurasyonu da bu þekilde yapýlýr. 
+
+builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings")); //Bu þekilde appsetting içinde bulunan DatabaseSettings burada konfigurasyon olarak eklenir.
+
+builder.Services.AddScoped<IDatabaseSettings>(sp =>
+{
+    return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+}); //Bu konfigurasyon ayarýnda da Database settings sýnýfý içindeki valuelara yani tablo isimleri, conn string, veritabaný ismi gibi bilgileri almak için kullanýlýyor.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

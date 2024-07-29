@@ -1,6 +1,6 @@
 ﻿namespace MultiShop.Catalog.Settings
 {
-    public class DatabseSettings : IDatabaseSettings
+    public class DatabaseSettings : IDatabaseSettings //Appsettingste bulunan Collectionların tanımlandığı yer. Örneğin appsettingsteki connection stringi kullanmak yerine bu sınıftan nesne türetiliyor. Gerekli eşleştirmeler appsetting içinde yapılıyor.
     {
         public string CategoryCollectionName { get; set; }
         public string ProductCollectionName { get; set; }
