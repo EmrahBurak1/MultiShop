@@ -26,7 +26,7 @@ namespace MultiShop.Catalog.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(string id)
         {
-            var values = _categoryService.GetByIdCategoryAsync(id);
+            var values = await _categoryService.GetByIdCategoryAsync(id);
             return Ok(values);
         }
 
@@ -48,7 +48,7 @@ namespace MultiShop.Catalog.Controllers
         public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
         {
             await _categoryService.UpdateCategoryAsync(updateCategoryDto);
-            return Ok("Kategori başarıyla silindi");
+            return Ok("Kategori başarıyla güncellendi");
         }
 
     }

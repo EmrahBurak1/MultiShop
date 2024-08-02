@@ -9,7 +9,7 @@ namespace MultiShop.Catalog.Mapping
 {
     public class GeneralMapping : Profile //Automapperda bulunan Profile sınıfından miras alınıyor.
     {
-        protected GeneralMapping() //Mapleme işlemi constructor içinde gerçekleştirilir.
+        public GeneralMapping() //Mapleme işlemi constructor içinde gerçekleştirilir.
         {
             //Map leme'nin amacı entitylerden nesne örnekleri oluşturmak yerine yani onları newlemek yerine entity'nin propertilerini dto'daki propertylerle eşleştiricek. 
             CreateMap<Category, ResultCategoryDto>().ReverseMap(); //category ile Resultcategorydto mapleniyor. Reversemap'in amacı da aynı şekilde tam tersini de mapleyebiliriz.

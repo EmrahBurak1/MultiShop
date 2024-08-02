@@ -7,7 +7,7 @@ namespace MultiShop.Catalog.Entities
     {
         [BsonId] //Mongoda ID olduğunu belirtmek için BsonId attribute'u kullanılıyor.
         [BsonRepresentation(BsonType.ObjectId)] //Bu şekilde de benzersiz olduğunu belirtmiş oluyoruz.
-        public string CategoryID { get; set; }
+        public string CategoryId { get; set; }
         public string CategoryName { get; set; }
     }
 }
