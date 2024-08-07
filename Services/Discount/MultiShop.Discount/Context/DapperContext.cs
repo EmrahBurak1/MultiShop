@@ -18,9 +18,9 @@ namespace MultiShop.Discount.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) //Tabloları veritabanına yansıtmak için kullanılır. Sonrasında bağlantı burdan kaldırılıp appsettings üzerinden devam edecek.
         {
-            optionsBuilder.UseSqlServer("Server=LENOVO-PC\\SQLEXPRESS; initial Catalog=MultiShopDiscountDb; integrated Security=true;");
+            optionsBuilder.UseSqlServer(_connectionString);
         }
         public DbSet<Coupon> Coupons { get; set; } //Veritabanına Coupons ismi ile yansıtacak.
-        public IDbConnection CreateConnection() => new SqlConnection(_connectionString); //CreateConnection çağırılınca yeni bir sql bağlantısı oluşturulacka.
+        public IDbConnection CreateConnection() => new SqlConnection(_connectionString); //CreateConnection çağırılınca yeni bir sql bağlantısı oluşturulacak.
     }
 }
