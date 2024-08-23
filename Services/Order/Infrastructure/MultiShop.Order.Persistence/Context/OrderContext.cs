@@ -12,7 +12,7 @@ namespace MultiShop.Order.Persistence.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server= ; Initial Catalog=MultiShopOrderDb; integrated Security=true;");
+            optionsBuilder.UseSqlServer("Server=localhost,1434; Initial Catalog=MultiShopOrderDb; User=sa; Password=123456aA*;"); //Docker db bilgilerini ekledik.
         }
 
         public DbSet<Address> Addresses { get; set; }

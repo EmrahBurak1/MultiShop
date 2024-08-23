@@ -3,11 +3,14 @@ using MultiShop.Order.Application.Features.CQRS.Handlers.AddressHandlers;
 using MultiShop.Order.Application.Features.CQRS.Handlers.OrderDetailHandlers;
 using MultiShop.Order.Application.Interfaces;
 using MultiShop.Order.Application.Services;
+using MultiShop.Order.Persistence.Context;
 using MultiShop.Order.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<OrderContext>();
+
 #region
 builder.Services.AddScoped<GetAddressQueryHandler>(); //Constructor geçtiðimiz tüm sýnýflarý Dependency injection'a geçiyoruz.
 builder.Services.AddScoped<GetAddressByIdQueryHandler>();
@@ -37,6 +40,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
 }
 
 app.UseHttpsRedirection();
