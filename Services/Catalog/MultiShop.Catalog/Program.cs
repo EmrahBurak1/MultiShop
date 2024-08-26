@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using MultiShop.Catalog.Mapping;
@@ -18,6 +19,14 @@ builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
 builder.Services.AddScoped<IProductImageService, ProductImageService>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly()); //Automapper konfigurasyonu da bu þekilde yapýlýr. 
+
+//Identityserver'ýn catalog mikroservisine dahil edilebilmesi için bu ayarýn yapýlmasý gerekiyor.
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.Authority = builder.Configuration["IdentityServerUrl"]; //Appsettingsten catalog mikroservisi ile birlikte identityserver'ýn da ayaða kalkmasý için kullanýlýyor.
+    opt.Audience = "ResourceCatalog"; //Token'a sahipse hangi sayfalara eriþim saðlayacak. Config içerisinde ResourceCatalog'a sahip kullanýcýnýn hangi yetkilere sahip olduðu var.
+    opt.RequireHttpsMetadata = false; //https kullanmayacaksak.
+});
 
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings")); //Bu þekilde appsetting içinde bulunan DatabaseSettings burada konfigurasyon olarak eklenir.
 
@@ -42,6 +51,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
