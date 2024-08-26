@@ -15,7 +15,8 @@ namespace MultiShop.IdentityServer
         {
             new ApiResource("ResourceCatalog"){ Scopes={"CatalogFullPermission", "CatalogReadPermission"} }, //ResorceCatalog ismindeki key'e sahip olan bir mikroservis kullanıcısı CatalogFullPermission işlemini gerçekleştirebilir. Virgül ile ayrılarak okuma yazma silme gibi işlemlere erişim verebiliriz.
             new ApiResource("ResourceDiscount"){ Scopes={"DiscountFullPermission"}},
-            new ApiResource("ResourceOrder"){ Scopes={"OrderFullPermission"}}
+            new ApiResource("ResourceOrder"){ Scopes={"OrderFullPermission"}},
+            new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
         };
 
         public static IEnumerable<IdentityResource> IdentityResources => new IdentityResource[] //Token alan kullanıcının o token içinde hangi bilgilere erişebileceği burada tanımlanır.
@@ -30,7 +31,8 @@ namespace MultiShop.IdentityServer
             new ApiScope("CatalogFullPermission","Full authority for catalog operations"), //CatalogFullPermission yetkisine sahip bir kullanıcının ne yapabileceğini açıklama olarak yazıyoruz.
             new ApiScope("CatalogReadPermission","Reading authority for catalog operations"), //CatalogFullPermission yetkisine sahip kullanıcının okuma yetkisine sahip olduğu açıklaması girilebilir.
             new ApiScope("DiscountFullPermission","Full authority for discount operations"),
-            new ApiScope("OrderFullPermission","Full authority for order operations")
+            new ApiScope("OrderFullPermission","Full authority for order operations"),
+            new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
         };
 
         public static IEnumerable<Client> Clients => new Client[] //Burada da ayrı ayrı istenildiği kadar client oluşturulabilir. Bu clientlar ile hangi tip kullanıcıya hangi yetkilerin verileceği tanımlanır. Örneğin ziyaretçi ise onun görebileceği sayfalar belirlenir.

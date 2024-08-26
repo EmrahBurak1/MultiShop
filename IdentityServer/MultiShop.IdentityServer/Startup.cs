@@ -28,6 +28,7 @@ namespace MultiShop.IdentityServer
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLocalApiAuthentication(); //Bununla mikroservisi koruma altına alabiliyoruz. Token'ı olmayan kullanıcı bu mikroservise erişemiyor.
             services.AddControllersWithViews();
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -81,6 +82,7 @@ namespace MultiShop.IdentityServer
 
             app.UseRouting();
             app.UseIdentityServer();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
