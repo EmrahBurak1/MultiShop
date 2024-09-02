@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore.Migrations.Operations.Builders;
 using MultiShop.Order.Application.Features.CQRS.Handlers.AddressHandlers;
 using MultiShop.Order.Application.Features.CQRS.Handlers.OrderDetailHandlers;
@@ -10,6 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<OrderContext>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.Authority = builder.Configuration["IdentityServerUrl"]; //Appsettingsten discount mikroservisi ile birlikte identityserver'ýn da ayaða kalkmasý için kullanýlýyor.
+    opt.Audience = "ResourceOrder"; //Token'a sahipse hangi sayfalara eriþim saðlayacak. Config içerisinde ResourceCatalog'a sahip kullanýcýnýn hangi yetkilere sahip olduðu var.
+    opt.RequireHttpsMetadata = false; //https kullanmayacaksak.
+});
 
 #region
 builder.Services.AddScoped<GetAddressQueryHandler>(); //Constructor geçtiðimiz tüm sýnýflarý Dependency injection'a geçiyoruz.
@@ -45,6 +53,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
