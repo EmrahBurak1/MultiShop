@@ -22,22 +22,22 @@ namespace MultiShop.Cargo.BusinessLayer.Concrete
             _cargoOperationService.TDelete(id);
         }
 
-        public List<CargoDetail> TGetAll()
+        public List<CargoOperation> TGetAll()
         {
             return _cargoOperationService.TGetAll();
         }
 
-        public CargoDetail TGetById(int id)
+        public CargoOperation TGetById(int id)
         {
             return _cargoOperationService.TGetById(id);
         }
 
-        public void TInsert(CargoDetail entity)
+        public void TInsert(CargoOperation entity)
         {
             _cargoOperationService.TInsert(entity);
         }
 
-        public void TUpdate(CargoDetail entity)
+        public void TUpdate(CargoOperation entity)
         {
             _cargoOperationService.TUpdate(entity);
         }
