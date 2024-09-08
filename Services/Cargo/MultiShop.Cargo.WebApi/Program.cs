@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MultiShop.Cargo.BusinessLayer.Abstract;
 using MultiShop.Cargo.BusinessLayer.Concrete;
 using MultiShop.Cargo.DataAccessLayer.Abstract;
@@ -17,6 +18,13 @@ builder.Services.AddScoped<ICargoOperationService, CargoOperationManager>();
 builder.Services.AddScoped<ICargoDetailDal, EfCargoDetailDal>();
 builder.Services.AddScoped<ICargoDetailService, CargoDetailManager>();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.Authority = builder.Configuration["IdentityServerUrl"]; //Appsettingsten cargo mikroservisi ile birlikte identityserver'ýn da ayaða kalkmasý için kullanýlýyor.
+    opt.Audience = "ResourceCargo"; //Token'a sahipse hangi sayfalara eriþim saðlayacak. Config içerisinde ResourceCargo'a sahip kullanýcýnýn hangi yetkilere sahip olduðu var.
+    opt.RequireHttpsMetadata = false; //https kullanmayacaksak.
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -33,6 +41,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
