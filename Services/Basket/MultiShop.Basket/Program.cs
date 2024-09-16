@@ -5,15 +5,18 @@ using Microsoft.Extensions.Options;
 using MultiShop.Basket.LoginServices;
 using MultiShop.Basket.Services;
 using MultiShop.Basket.Settings;
+using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var requireAuthotizePolict = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build(); //Bu þekilde authorization iþlemi için kullanýcý bilgisinin zorunlu olduðu koþulunu belirledik.
 
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub"); //Token içindeki kullanýcý id bilgisi sub olarak gelir ve bize bunu map'leyerek getirir bunu engellemek için sub'a özel maplemeyi kaldýrmýþ oluyoruz.
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
 {
-    opt.Authority = builder.Configuration["IdentityServer:Authority"];
+    opt.Authority = builder.Configuration["IdentityServerUrl"];
     opt.Audience = "ResourceBasket";
     opt.RequireHttpsMetadata = false;
 });

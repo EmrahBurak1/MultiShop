@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Basket.Dtos;
 using MultiShop.Basket.LoginServices;
@@ -22,6 +23,7 @@ namespace MultiShop.Basket.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMyBasketDetail()
         {
+            var user = User.Claims; //Sisteme girmiş olan token'a ait bilgileri verir. Yani kullanıcı bilgilerini .net core'da bu şekilde alabiliriz.
             var values = await _basketService.GetBasket(_loginService.GetUserId);
             return Ok(values);
         }

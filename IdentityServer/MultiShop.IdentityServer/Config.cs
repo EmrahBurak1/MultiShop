@@ -46,7 +46,7 @@ namespace MultiShop.IdentityServer
             {
                 ClientId="MultiShopVisitorId",
                 ClientName="Multi Shop Visitor User",
-                AllowedGrantTypes=GrantTypes.ClientCredentials,
+                AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
                 ClientSecrets={new Secret("multishopsecret".Sha256())}, //Burada her bir client için özel bir şifre oluşturulur. Karmaşık şifreler yazılabilir. Sha256 ile şifreliyor.
                 AllowedScopes={"CatalogReadPermission"} //Visitor kullanıcısı sadece catalog okuma yetkisine sahip olsun diye belirtiyoruz.
             },
@@ -56,7 +56,7 @@ namespace MultiShop.IdentityServer
             {
                 ClientId="MultiShopManagerId",
                 ClientName="Multi Shop Manager User",
-                AllowedGrantTypes=GrantTypes.ClientCredentials,
+                AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
                 ClientSecrets={new Secret("multishopsecret".Sha256())},
                 AllowedScopes={ "CatalogReadPermission", "CatalogFullPermission" }
             },
@@ -66,7 +66,7 @@ namespace MultiShop.IdentityServer
             {
                 ClientId="MultiShopAdminId",
                 ClientName="Multi Shop Admin User",
-                AllowedGrantTypes=GrantTypes.ClientCredentials,
+                AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
                 ClientSecrets={new Secret("multishopsecret".Sha256())},
                 AllowedScopes={ "CatalogReadPermission", "CatalogFullPermission", "DiscountFullPermission", "OrderFullPermission", "CargoFullPermission", "BasketFullPermission",
                     IdentityServerConstants.LocalApi.ScopeName, //Admin kullanıcısı için ayrıca scopename, email gibi bilgilere de erişebilmesi sağlanır.
