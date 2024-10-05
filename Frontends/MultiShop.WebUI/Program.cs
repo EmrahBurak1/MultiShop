@@ -24,4 +24,12 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.UseEndpoints(endpoints => //Admin paneli ile kullanýcý panelini ayýrmak için area kullandýk. Program cs'in bu areayý tanýmasý için bu kodu ekledik. Area oluþturunca kod otomatik gelir.
+{
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+});
+
 app.Run();
