@@ -2,10 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.CatalogDtos.CategoryDtos;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace MultiShop.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [AllowAnonymous]
+    [Route("Admin/Category")] //Yönlendirme işlemlerinin düzgün çalışabilmesi için ekledik.
     public class CategoryController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -15,7 +18,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        [AllowAnonymous]
+        [Route("Index")] //Her bir route işlemi için hangi route'un çalışacağını belirttik.
         public async Task<IActionResult> Index()
         {
             ViewBag.v1 = "Ana Sayfa";
@@ -33,5 +36,42 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             }
             return View();
         }
+
+        [HttpGet]
+        [Route("CreateCategory")]
+        public IActionResult CreateCategory()
+        {
+            ViewBag.v1 = "Ana Sayfa";
+            ViewBag.v2 = "Kategoriler";
+            ViewBag.v3 = "Yeni Kategori Girişi";
+            ViewBag.v0 = "Kategori İşlemleri";
+            return View();
+        }
+        [HttpPost]
+        [Route("CreateCategory")]
+        public async Task<IActionResult> CreateCategory(CreateCategoryDto createCategoryDto)
+        {
+            var client = _httpClientFactory.CreateClient(); //Parametre olarak alınan değeri değişkene atadık.
+            var jsonData = JsonConvert.SerializeObject(createCategoryDto); //Json formatına çevirdik.
+            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json"); //Json formatındaki veriyi content olarak atadık. İkinci parametre hangi dil desteğinde olduğu. Üçüncü parametre ise mediatype'ın ne olduğunu belirtir. 
+            var responseMessage = await client.PostAsync("https://localhost:7070/api/Categories", stringContent); //İlgili adrese istekte bulunabilmek için responseMessage değişkenine atadık.
+            if (responseMessage.IsSuccessStatusCode) {
+                return RedirectToAction("Index", "Category", new { area = "Admin" }); //İşlem başarılıysa Index sayfasına yönlendir. İkinci parametre controller adı, üçüncü parametre ise area adıdır.
+            }
+            return View();
+        }
+
+        [Route("DeleteCategory/{id}")]
+        public async Task<IActionResult> DeleteCategory(string id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.DeleteAsync("https://localhost:7070/api/Categories?id=" + id);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Category", new { area = "Admin" });
+            }
+            return View();
+        }
+
     }
 }
