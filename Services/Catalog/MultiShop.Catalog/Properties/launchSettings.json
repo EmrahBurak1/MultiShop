@@ -12,7 +12,7 @@
     "MultiShop.Catalog": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": false, //Uygulama çalışacak ama browser açılmayacak anlamına geliyor.
+      "launchBrowser": true, //Uygulama çalışacak ama browser açılmayacak anlamına geliyor.
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:7070",
       "environmentVariables": {
