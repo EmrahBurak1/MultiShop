@@ -17,7 +17,7 @@ namespace MultiShop.Catalog.Entities
         public string CategoryId { get; set; }
 
         [BsonIgnore] //Mongodb de ignore ile belirtilen parametreler veritabanına kaydedilmez.
-        public Category Category { get; set; }
+        public SpecialOffer Category { get; set; }
 
     }
 }

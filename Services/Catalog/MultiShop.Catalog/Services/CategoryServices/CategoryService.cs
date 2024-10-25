@@ -8,20 +8,20 @@ namespace MultiShop.Catalog.Services.CategoryServices
 {
     public class CategoryService : ICategoryService
     {
-        private readonly IMongoCollection<Category> _categoryCollection; //MongoCollection'dan category sınıfı için bir field türetiyoruz.
+        private readonly IMongoCollection<SpecialOffer> _categoryCollection; //MongoCollection'dan category sınıfı için bir field türetiyoruz.
         private readonly IMapper _mapper; //Automapper'ı kullanmak için mapper field'ı oluşturuyoruz.
 
         public CategoryService(IMapper mapper, IDatabaseSettings _databaseSettings )
         {
             var client = new MongoClient(_databaseSettings.ConnectionString);
             var database = client.GetDatabase(_databaseSettings.DatabaseName);
-            _categoryCollection = database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);  //Category tablosuna da bu şekilde erişim sağlanır.
+            _categoryCollection = database.GetCollection<SpecialOffer>(_databaseSettings.CategoryCollectionName);  //Category tablosuna da bu şekilde erişim sağlanır.
             _mapper = mapper;
         }
 
         public async Task CreateCategoryAsync(CreateCategoryDto createCategoryDto)
         {
-            var value = _mapper.Map<Category>( createCategoryDto ); //Category entitysi ile createCategoryDto dan gelen parametreler eşleştirilmiş olur.
+            var value = _mapper.Map<SpecialOffer>( createCategoryDto ); //Category entitysi ile createCategoryDto dan gelen parametreler eşleştirilmiş olur.
             await _categoryCollection.InsertOneAsync(value);  //Mongodb'de ekleme işlemi InsertOneAsync ile yapılıyor. Bu şekilde Asekron olarak ekleme işlemi yapılır.
         }
 
@@ -44,7 +44,7 @@ namespace MultiShop.Catalog.Services.CategoryServices
 
         public async Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto)
         {
-            var values = _mapper.Map<Category>(updateCategoryDto);
+            var values = _mapper.Map<SpecialOffer>(updateCategoryDto);
             await _categoryCollection.FindOneAndReplaceAsync(x=>x.CategoryId==updateCategoryDto.CategoryID, values); //Mongodb de update işlemi FindOneAndReplace ile yapılır.
 
         }
