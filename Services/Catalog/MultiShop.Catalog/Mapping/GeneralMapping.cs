@@ -14,10 +14,10 @@ namespace MultiShop.Catalog.Mapping
         public GeneralMapping() //Mapleme işlemi constructor içinde gerçekleştirilir.
         {
             //Map leme'nin amacı entitylerden nesne örnekleri oluşturmak yerine yani onları newlemek yerine entity'nin propertilerini dto'daki propertylerle eşleştiricek. 
-            CreateMap<SpecialOffer, ResultCategoryDto>().ReverseMap(); //category ile Resultcategorydto mapleniyor. Reversemap'in amacı da aynı şekilde tam tersini de mapleyebiliriz.
-            CreateMap<SpecialOffer, CreateCategoryDto>().ReverseMap();
-            CreateMap<SpecialOffer, UpdateCategoryDto>().ReverseMap();
-            CreateMap<SpecialOffer, GetByIdCategoryDto>().ReverseMap();
+            CreateMap<Category, ResultCategoryDto>().ReverseMap(); //category ile Resultcategorydto mapleniyor. Reversemap'in amacı da aynı şekilde tam tersini de mapleyebiliriz.
+            CreateMap<Category, CreateCategoryDto>().ReverseMap();
+            CreateMap<Category, UpdateCategoryDto>().ReverseMap();
+            CreateMap<Category, GetByIdCategoryDto>().ReverseMap();
 
             CreateMap<Product, ResultProductDto>().ReverseMap();
             CreateMap<Product, CreateProductDto>().ReverseMap();

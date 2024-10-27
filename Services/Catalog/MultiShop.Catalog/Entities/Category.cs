@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace MultiShop.Catalog.Entities
 {
-    public class SpecialOffer
+    public class Category
     {
         [BsonId] //Mongoda ID olduğunu belirtmek için BsonId attribute'u kullanılıyor.
         [BsonRepresentation(BsonType.ObjectId)] //Bu şekilde de benzersiz olduğunu belirtmiş oluyoruz.
