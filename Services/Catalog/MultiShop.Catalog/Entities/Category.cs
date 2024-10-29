@@ -9,5 +9,6 @@ namespace MultiShop.Catalog.Entities
         [BsonRepresentation(BsonType.ObjectId)] //Bu şekilde de benzersiz olduğunu belirtmiş oluyoruz.
         public string CategoryId { get; set; }
         public string CategoryName { get; set; }
+        public string ImageUrl { get; set; }
     }
 }
