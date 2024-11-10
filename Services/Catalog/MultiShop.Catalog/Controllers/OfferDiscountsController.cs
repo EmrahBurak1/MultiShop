@@ -9,11 +9,11 @@ namespace MultiShop.Catalog.Controllers
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
-    public class OfferDiscountController : ControllerBase
+    public class OfferDiscountsController : ControllerBase
     {
         private readonly IOfferDiscountService _offerDiscountService;
 
-        public OfferDiscountController(IOfferDiscountService OfferDiscountService)
+        public OfferDiscountsController(IOfferDiscountService OfferDiscountService)
         {
             _offerDiscountService = OfferDiscountService;
         }
