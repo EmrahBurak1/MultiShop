@@ -9,7 +9,8 @@ using static IdentityServer4.IdentityServerConstants;
 
 namespace MultiShop.IdentityServer.Controllers
 {
-    [Authorize(LocalApi.PolicyName)] //Auyhorize attribute'u ile mikroservisi koruma altına alıyoruz. Yani token yoksa kullanıcı erişemez.
+    //[Authorize(LocalApi.PolicyName)] //Auyhorize attribute'u ile mikroservisi koruma altına alıyoruz. Yani token yoksa kullanıcı erişemez.
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class RegistersController : ControllerBase
