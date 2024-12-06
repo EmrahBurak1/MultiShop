@@ -46,9 +46,9 @@ namespace MultiShop.IdentityServer
             {
                 ClientId="MultiShopVisitorId",
                 ClientName="Multi Shop Visitor User",
-                AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
+                AllowedGrantTypes=GrantTypes.ClientCredentials,
                 ClientSecrets={new Secret("multishopsecret".Sha256())}, //Burada her bir client için özel bir şifre oluşturulur. Karmaşık şifreler yazılabilir. Sha256 ile şifreliyor.
-                AllowedScopes={"CatalogReadPermission"} //Visitor kullanıcısı sadece catalog okuma yetkisine sahip olsun diye belirtiyoruz.
+                AllowedScopes={"DiscountFullPermission", "CatalogReadPermission", "CatalogFullPermission" } //Visitor kullanıcısı sadece catalog okuma yetkisine sahip olsun diye belirtiyoruz.
             },
 
             //Manager
@@ -58,7 +58,7 @@ namespace MultiShop.IdentityServer
                 ClientName="Multi Shop Manager User",
                 AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
                 ClientSecrets={new Secret("multishopsecret".Sha256())},
-                AllowedScopes={ "CatalogReadPermission", "CatalogFullPermission" }
+                AllowedScopes={ "CatalogReadPermission", "CatalogFullPermission", "BasketFullPermission" }
             },
 
             //Admin
