@@ -1,5 +1,9 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MultiShop.WebUI.Services;
+using MultiShop.WebUI.Services.Concrete;
+using MultiShop.WebUI.Services.Interfaces;
+using MultiShop.WebUI.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,13 +19,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         opt.Cookie.Name = "MultiShopJwt"; //Cookie'nin adýný belirler.
     });
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opt =>
+{
+    opt.LoginPath = "/Login/Index/"; //Giriþ yapmadan gelen kullanýcý olursa yönlendireceðimiz sayfa.
+    opt.ExpireTimeSpan = TimeSpan.FromDays(30); //Cookie'nin süresini belirler.
+    opt.Cookie.Name = "MultiShopCookie"; //Cookie'nin adýný belirler.
+    opt.SlidingExpiration = true; //Kullanýcý her istekte cookie süresi 30 gün olarak güncellenir.
+});
+
 builder.Services.AddHttpContextAccessor(); //HttpContext'e eriþebilmek için ekledik.
 
 builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddHttpClient<IIdentityService, IdentityService>();
 
 // Add services to the container.
 builder.Services.AddHttpClient(); //HttpClient'ý kullanabilmek için ekledik.
 builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings")); //ClientSettings sýnýfýný appsettings.json dosyasýndaki ClientSettings bölümüne baðladýk.
 
 var app = builder.Build();
 
