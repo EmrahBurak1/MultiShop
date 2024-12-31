@@ -1,28 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.CatalogDtos.FeatureDtos;
+using MultiShop.WebUI.Services.CatalogServices.FeatureServices;
 using Newtonsoft.Json;
 
 namespace MultiShop.WebUI.ViewComponents.DefaultViewComponents
 {
     public class _FeatureDefaultComponentPartial : ViewComponent
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IFeatureService _featureService;
 
-        public _FeatureDefaultComponentPartial(IHttpClientFactory httpClientFactory)
+        public _FeatureDefaultComponentPartial(IFeatureService featureService)
         {
-            _httpClientFactory = httpClientFactory;
+            _featureService = featureService;
         }
+
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7070/api/Features"); //İlgili controllerdan verileri aldık.
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync(); //Gelen veriyi json olarak okuyoruz.
-                var values = JsonConvert.DeserializeObject<List<ResultFeatureDto>>(jsonData); //Json veriyi metin formatına çeviriyoruz.
-                return View(values);
-            }
-            return View();
+            var values = await _featureService.GetAllFeatureAsync();
+            return View(values);
         }
     }
 }

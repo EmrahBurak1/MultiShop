@@ -1,29 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.CatalogDtos.CategoryDtos;
+using MultiShop.WebUI.Services.CatalogServices.CategoryServices;
 using Newtonsoft.Json;
 
 namespace MultiShop.WebUI.ViewComponents.DefaultViewComponents
 {
     public class _CatagoriesDefaultComponentPartial : ViewComponent
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ICategoryService _categoryService;
 
-        public _CatagoriesDefaultComponentPartial(IHttpClientFactory httpClientFactory)
+        public _CatagoriesDefaultComponentPartial(ICategoryService categoryService)
         {
-            _httpClientFactory = httpClientFactory;
+            _categoryService = categoryService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7070/api/Categories"); //İlgili controllerdan verileri aldık.
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync(); //Gelen veriyi json olarak okuyoruz.
-                var values = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(jsonData); //Json veriyi metin formatına çeviriyoruz.
-                return View(values);
-            }
-            return View();
+            var values = await _categoryService.GetAllCategoryAsync();
+            return View(values);
         }
     }
 }
