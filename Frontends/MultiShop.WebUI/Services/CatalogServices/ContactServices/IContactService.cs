@@ -1,6 +1,6 @@
-﻿using MultiShop.Catalog.Dtos.ContactDtos;
+﻿using MultiShop.DtoLayer.CatalogDtos.ContactDtos;
 
-namespace MultiShop.Catalog.Services.ContactServices
+namespace MultiShop.WebUI.Services.CatalogServices.ContactServices
 {
     public interface IContactService
     {
