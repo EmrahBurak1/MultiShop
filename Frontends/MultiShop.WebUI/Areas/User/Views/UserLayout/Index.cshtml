@@ -1,0 +1,37 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+@await Component.InvokeAsync("_UserLayoutHeadComponentPartial")
+
+<body>
+    <div class="container-scroller d-flex">
+
+        <!-- partial:../../partials/_sidebar.html -->
+        @await Component.InvokeAsync("_UserLayoutSideBarComponentPartial")
+        <!-- partial -->
+
+        <div class="container-fluid page-body-wrapper">
+
+            <!-- partial:../../partials/_navbar.html -->
+            @await Component.InvokeAsync("_UserLayoutNavbarComponentPartial")      
+            <!-- partial -->
+
+            <!-- main-panel -->
+            @RenderBody()
+            <!-- main-panel ends -->
+
+        </div>
+    </div>
+    <script src="../../vendors/js/vendor.bundle.base.js"></script>
+    <script src="../../js/off-canvas.js"></script>
+    <script src="../../js/hoverable-collapse.js"></script>
+    <script src="../../js/template.js"></script>
+</body>
+
+</html>
+
