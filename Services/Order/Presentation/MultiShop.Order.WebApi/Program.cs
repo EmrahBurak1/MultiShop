@@ -34,6 +34,7 @@ builder.Services.AddScoped<RemoveOrderDetailCommandHandler>();
 #endregion
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); //Repository için registration iþlemini yaptýk.
+builder.Services.AddScoped(typeof(IOrderingRepository), typeof(OrderingRepository)); //OrderingRepository için registration iþlemini yaptýk.
 builder.Services.AddApplicationService(builder.Configuration); //Burada da servisimizi eklemiþ oluyoruz. SOLID'i ezmemek için MediatR'ý application içindeki services klasörüne ekledik. 
 
 builder.Services.AddControllers();
