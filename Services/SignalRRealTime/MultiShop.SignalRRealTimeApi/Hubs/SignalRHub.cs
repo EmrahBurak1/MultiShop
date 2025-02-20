@@ -7,22 +7,18 @@ namespace MultiShop.SignalRRealTimeApi.Hubs
     public class SignalRHub : Hub
     {
         private readonly ISignalRCommentService _signalRCommentService;
-        private readonly ISignalRMessageService _signalMessageService;
+        //private readonly ISignalRMessageService _signalMessageService;
 
-        public SignalRHub(ISignalRCommentService signalRService, ISignalRMessageService signalMessageService)
+        public SignalRHub(ISignalRCommentService signalRService)
         {
             _signalRCommentService = signalRService;
-            _signalMessageService = signalMessageService;
         }
 
         public async Task SendStatisticCount()
         {
-            string id = "1";
-            var getTotalCommentCount = _signalRCommentService.GetTotalCommentCount();
+            var getTotalCommentCount = await _signalRCommentService.GetTotalCommentCount();
             await Clients.All.SendAsync("ReceiveCommentCount", getTotalCommentCount);
 
-            var getTotalMessageCount = _signalMessageService.GetTotalMessageCountByReceiverId(id);
-            await Clients.All.SendAsync("ReceiveMessageCount", getTotalMessageCount);
         }
     }
 }
