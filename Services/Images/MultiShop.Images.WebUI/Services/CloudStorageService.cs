@@ -21,11 +21,13 @@ namespace MultiShop.Images.WebUI.Services
                 if (environment == Environments.Production)
                 {
                     // Store the json file in Secrets.
-                    _googleCredential = GoogleCredential.FromJson(_options.GCPStorageAuthFile);
+                    //_googleCredential = GoogleCredential.FromJson(_options.GCPStorageAuthFile);
+                    _googleCredential = null; //Ben kapattım.
                 }
                 else
                 {
-                    _googleCredential = GoogleCredential.FromFile(_options.GCPStorageAuthFile);
+                    //_googleCredential = GoogleCredential.FromFile(_options.GCPStorageAuthFile);
+                    _googleCredential = null; //Ben kapattım.
                 }
             }
             catch (Exception ex)

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MultiShop.Images.Controllers
 {
+    //NOT: Images microservice'ini yapmadım. Google Cloud Storage kullanılıyor.
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
